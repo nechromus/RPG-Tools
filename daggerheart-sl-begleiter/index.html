@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#16211c">
+<title>Daggerheart SL-Begleiter</title>
+<style>:root {
+  --bg: #121a16;
+  --bg-2: #16211c;
+  --surface: #1a2621;
+  --surface-2: #22302a;
+  --line: #2c3d35;
+  --line-2: #3a4a42;
+  --text: #ece6d6;
+  --text-2: #d7dccf;
+  --muted: #a9b3a6;
+  --gold: #e3ac52;
+  --gold-text: #f2c77c;
+  --gold-bg: #1f1c14;
+  --gold-line: #5c4a2c;
+  --teal: #8fd0c4;
+  --fear: #9b7fd1;
+  --fear-text: #c3adf0;
+  --hp: #d8674f;
+  --hp-off: #7a4038;
+  --stress: #5fb3a8;
+  --stress-off: #3c6a62;
+  --good: #b7dc9a;
+  --warn: #f0b98a;
+  --bad: #f0a593;
+  --serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+  --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 16px; line-height: 1.45; }
+button, input, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+h1, h2, h3 { margin: 0; font-family: var(--serif); }
+h1 { font-size: 34px; line-height: 1.15; }
+h3 { font-size: 19px; }
+code { background: var(--surface-2); padding: 1px 6px; border-radius: 4px; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.grow { flex: 1 1 auto; }
+.muted { color: var(--muted); }
+.small { font-size: 14px; }
+.accent { color: var(--gold); }
+.ic { display: inline-flex; flex-shrink: 0; }
+.eyebrow { display: block; font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.eyebrow.accent { color: var(--gold); }
+
+/* ---------- Buttons & Chips ---------- */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 0 16px; border-radius: 10px; border: 1px solid var(--line-2); background: var(--surface-2); color: var(--text); font-weight: 600; text-align: left; }
+.btn:hover { border-color: #56685e; }
+.btn.primary { background: var(--gold); border-color: var(--gold); color: #1a140a; }
+.btn.primary:hover { background: #f0bd6a; }
+.btn.ghost { background: transparent; }
+.btn.danger { color: var(--bad); }
+.btn.icon { width: 44px; padding: 0; }
+.btn.icon.sm { width: 36px; min-height: 36px; border-radius: 8px; }
+.small-btn { min-height: 40px; margin-top: 8px; }
+.linkbtn { display: inline-flex; align-items: center; gap: 4px; margin-left: 6px; padding: 2px 4px; border: 0; background: none; color: var(--gold); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+.pill { display: inline-flex; align-items: center; gap: 5px; padding: 3px 10px; border-radius: 999px; font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; }
+.pill.gold { background: var(--gold); color: #1a140a; }
+.pill.teal { background: #2a3f38; color: var(--teal); }
+.pill.red { background: #3b2420; color: var(--bad); }
+.pill.tiny { font-size: 10px; padding: 2px 6px; letter-spacing: .04em; }
+.chip { display: inline-flex; align-items: center; padding: 5px 12px; border-radius: 8px; background: var(--surface-2); font-weight: 700; font-size: 15px; white-space: nowrap; }
+.chev { display: inline-flex; color: var(--muted); transition: transform .15s; }
+.chev.open { transform: rotate(90deg); }
+.card { border: 1px solid var(--line); border-radius: 14px; background: var(--surface); padding: 18px; display: flex; flex-direction: column; gap: 12px; }
+
+/* ---------- Grundlayout ---------- */
+.app { min-height: 100vh; display: flex; flex-direction: column; }
+.topbar { position: sticky; top: 0; z-index: 30; display: flex; align-items: center; gap: 16px; min-height: 64px; padding: 8px 20px; background: var(--bg-2); border-bottom: 1px solid #2a3832; }
+.brand { display: flex; flex-direction: column; min-width: 0; }
+.brand-title { font-family: var(--serif); font-weight: 700; font-size: 21px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.topscene { display: none; color: var(--muted); }
+.navbtn { display: none; }
+
+.fear { display: flex; align-items: center; gap: 6px; }
+.fear-label { font-size: 13px; color: var(--muted); }
+.fdots { display: flex; }
+.fdot { width: 22px; height: 36px; padding: 0; border: 0; background: none; display: inline-flex; align-items: center; justify-content: center; }
+.fdot span { width: 15px; height: 15px; border-radius: 50%; border: 2px solid #4a5a52; }
+.fdot.on span { background: var(--fear); border-color: var(--fear); }
+.fear-val { min-width: 26px; text-align: center; font-family: var(--serif); font-weight: 700; font-size: 22px; color: var(--fear-text); }
+
+.menu { position: relative; }
+.menu summary { list-style: none; }
+.menu summary::-webkit-details-marker { display: none; }
+.menu-pop { position: absolute; right: 0; top: calc(100% + 8px); width: 290px; padding: 8px; border-radius: 12px; border: 1px solid var(--line-2); background: #18241f; box-shadow: 0 16px 40px rgba(0,0,0,.45); display: flex; flex-direction: column; gap: 2px; z-index: 50; }
+.menu-pop .eyebrow { padding: 8px 10px 4px; }
+.menu-item { display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 10px; border: 0; border-radius: 8px; background: none; text-align: left; }
+.menu-item:hover { background: var(--surface-2); }
+.menu-item.current { color: var(--gold); }
+.menu-item.danger { color: var(--bad); }
+
+.body { flex: 1; display: grid; grid-template-columns: 250px minmax(0, 1fr) 300px; height: calc(100vh - 64px); }
+.nav, .main, .side { overflow-y: auto; }
+.nav { border-right: 1px solid #2a3832; padding: 18px 12px 40px; display: flex; flex-direction: column; gap: 18px; }
+.nav-act { display: flex; flex-direction: column; gap: 2px; }
+.nav-act .eyebrow { padding: 0 10px 4px; }
+.nav-item { display: flex; align-items: center; gap: 8px; min-height: 42px; padding: 8px 10px; border: 0; border-radius: 8px; background: none; color: #c9cfc4; text-align: left; }
+.nav-item span:first-child { flex: 1; }
+.nav-item:hover { background: #1d2a24; }
+.nav-item.current { background: #24332c; color: var(--text); font-weight: 700; }
+.donemark { color: var(--teal); display: inline-flex; }
+.scrim { display: none; }
+.main { padding: 28px 36px 60px; }
+.side { border-left: 1px solid #2a3832; background: #141e19; padding: 20px 18px 40px; display: flex; flex-direction: column; gap: 22px; }
+
+/* ---------- Szene ---------- */
+.scene { max-width: 860px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
+.scene-head { display: flex; flex-direction: column; gap: 4px; }
+.prose p { margin: 0 0 .7em; }
+.prose p:last-child { margin-bottom: 0; }
+.prose.small { font-size: 14px; color: var(--text-2); }
+
+.readaloud { border: 1px solid var(--gold-line); border-radius: 14px; background: var(--gold-bg); padding: 6px 22px 6px; }
+.readaloud.done { border-color: #3d3524; opacity: .82; }
+.ra-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.ra-toggle { flex: 1 1 260px; display: flex; align-items: center; gap: 12px; min-height: 52px; padding: 0; border: 0; background: none; text-align: left; }
+.ra-title { flex: 1; font-family: var(--serif); font-weight: 700; font-size: 19px; }
+.readmark { display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding: 0 12px; border-radius: 999px; border: 1px dashed #6b5527; background: none; color: var(--muted); font-size: 13px; }
+.readmark.on { border-style: solid; border-color: #4f7a6c; color: #9fe0cf; background: #1c2e28; }
+.readtext { padding: 4px 0 18px; font-family: var(--serif); font-size: 20px; line-height: 1.6; color: #f1e9d4; }
+
+.gmnote { display: flex; gap: 14px; align-items: flex-start; padding: 14px 18px; border-radius: 12px; background: #182420; border: 1px solid var(--line); }
+.gmlabel { flex-shrink: 0; margin-top: 2px; font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.gmnote.q .gmlabel { color: var(--teal); }
+.gmnote .prose { color: var(--text-2); }
+
+.decision { background: #16201b; }
+.decision-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.outcomes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.outcome { display: flex; flex-direction: column; gap: 6px; padding: 14px; border-radius: 10px; text-align: left; border: 1px solid; min-height: 44px; transition: opacity .15s; }
+.outcome.wide { grid-column: 1 / -1; }
+.outcome-label { display: flex; align-items: center; gap: 4px; font-weight: 700; }
+.outcome-text { color: var(--text-2); line-height: 1.45; }
+.fearnote { font-weight: 500; color: var(--fear-text); }
+.pickmark { margin-left: auto; display: inline-flex; }
+.outcome.good { background: #1f2b20; border-color: #3c5a3a; } .outcome.good .outcome-label { color: var(--good); }
+.outcome.warn { background: #2a2219; border-color: #5a4630; } .outcome.warn .outcome-label { color: var(--warn); }
+.outcome.bad { background: #2c1d1c; border-color: #6a3a34; } .outcome.bad .outcome-label { color: var(--bad); }
+.outcome.crit { background: #2a2414; border-color: #6b5527; } .outcome.crit .outcome-label { color: var(--gold-text); }
+.outcome.neutral { background: var(--surface-2); border-color: var(--line-2); }
+.outcome.picked { box-shadow: 0 0 0 2px var(--gold); }
+.outcome.dim { opacity: .45; }
+
+.branches ul { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 8px; color: var(--text-2); }
+.info-toggle { display: flex; align-items: center; gap: 8px; min-height: 36px; padding: 0; border: 0; background: none; text-align: left; }
+.npcgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 10px; }
+.npc { padding: 14px; gap: 6px; }
+.section-title { margin-bottom: 10px; }
+
+.statcard-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.statgrid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; text-align: center; }
+.stat { padding: 8px 4px; border-radius: 10px; background: var(--surface-2); display: flex; flex-direction: column; }
+.stat span { font-size: 12px; color: var(--muted); }
+.stat strong { font-size: 20px; }
+.weapon { padding: 10px 14px; border-radius: 10px; background: #182420; }
+.dmg { color: var(--gold-text); }
+.features { display: flex; flex-direction: column; gap: 8px; }
+.feature { padding: 10px 14px; border-radius: 10px; border: 1px solid #3a3424; background: #1a1812; }
+.feature-head strong { color: var(--gold-text); }
+.feature-text { margin-top: 4px; color: var(--text-2); font-size: 15px; }
+.fearcost { margin-left: 8px; padding: 1px 8px; border-radius: 999px; background: #2a2140; color: var(--fear-text); font-size: 12px; font-weight: 700; }
+
+.pager { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
+
+/* ---------- Kampf ---------- */
+.combat { display: flex; flex-direction: column; gap: 12px; padding-top: 6px; }
+.combat-bar { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.countdown { display: flex; align-items: center; gap: 14px; padding: 12px 16px; border-radius: 14px; background: #2a2414; border: 1px solid #6b5527; }
+.cd-die { position: relative; width: 56px; height: 56px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+.cd-die svg { position: absolute; inset: 0; fill: #3a3016; stroke: var(--gold); stroke-width: 2; }
+.cd-die span { position: relative; font-family: var(--serif); font-weight: 700; font-size: 24px; color: var(--gold-text); }
+.cd-text { flex: 1; display: flex; flex-direction: column; gap: 2px; }
+.cd-text strong { color: var(--gold-text); }
+.cd-done { color: var(--good); font-weight: 700; }
+.cd-btns { display: flex; gap: 6px; }
+
+.units { display: flex; flex-direction: column; gap: 10px; }
+.unit { border-radius: 14px; border: 1px solid var(--line); background: #16201b; }
+.unit.open { border-color: #4a5f55; background: var(--surface); }
+.unit.down { opacity: .55; }
+.unit.acted .unit-title strong { color: var(--muted); }
+.unit-head { display: flex; align-items: center; gap: 12px; padding: 8px 12px; flex-wrap: wrap; }
+.unit-name { display: flex; align-items: center; gap: 10px; min-height: 48px; padding: 0 4px; border: 0; background: none; text-align: left; }
+.unit-title { display: flex; flex-direction: column; }
+.unit-title strong { font-family: var(--serif); font-size: 19px; }
+.tracks { display: flex; gap: 14px; flex-wrap: wrap; }
+.track { display: flex; align-items: center; }
+.tlabel { font-size: 12px; color: var(--muted); margin-right: 4px; min-width: 18px; }
+.pip { width: 34px; height: 40px; padding: 0; border: 0; background: none; display: inline-flex; align-items: center; justify-content: center; }
+.pip span { width: 24px; height: 24px; border: 2px solid; }
+.pip.hp span { border-radius: 5px; border-color: var(--hp-off); }
+.pip.hp.on span { background: var(--hp); border-color: var(--hp); }
+.pip.stress span { border-radius: 50%; border-color: var(--stress-off); }
+.pip.stress.on span { background: var(--stress); border-color: var(--stress); }
+.chips { display: flex; gap: 6px; flex-wrap: wrap; }
+.cond { padding: 4px 10px; border-radius: 999px; font-size: 13px; font-weight: 700; border: 1px solid; }
+.c0 { color: var(--gold-text); background: #3a2e14; border-color: #8a6a2c; }
+.c1 { color: #9fc7f2; background: #18283a; border-color: #3c6290; }
+.c2 { color: #c9cfc4; background: #262c29; border-color: #56625b; }
+.custom { color: var(--fear-text); background: #2a2140; border-color: #6a52a0; }
+.cond.down { color: var(--bad); background: #3b2420; border-color: #8a4a3e; }
+.actbtn { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 14px; border-radius: 10px; border: 1px solid var(--line-2); background: none; color: #c9cfc4; font-weight: 700; white-space: nowrap; }
+.actbtn.on { background: #2a3f38; border-color: #4f7a6c; color: #9fe0cf; }
+
+.unit-body { border-top: 1px solid var(--line); padding: 16px; display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 18px; }
+.unit-body .col { display: flex; flex-direction: column; gap: 12px; }
+.group { display: flex; flex-direction: column; gap: 8px; }
+.dmgbtns { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+button.dmg { min-height: 58px; border-radius: 10px; border: 1px solid; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; color: var(--text); }
+button.dmg span { font-size: 13px; color: #c9cfc4; }
+.dmg.minor { background: #2a2219; border-color: #5a4630; }
+.dmg.major { background: #2d2019; border-color: #6a4a34; }
+.dmg.severe { background: #321c1a; border-color: #7a3a34; }
+.dmgform, .condform { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.dmgform label { font-size: 14px; color: var(--muted); }
+.dmgform input { width: 96px; }
+.condform input { flex: 1 1 180px; }
+input[type=text], input[type=number], textarea { min-height: 44px; padding: 8px 12px; border-radius: 10px; border: 1px solid var(--line-2); background: #101713; }
+textarea { width: 100%; resize: vertical; line-height: 1.45; }
+.condbtns { display: flex; gap: 8px; flex-wrap: wrap; }
+.condbtn { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 14px; border-radius: 999px; font-weight: 700; border: 1.5px dashed var(--line-2); background: none; color: var(--muted); }
+.condbtn.on { border-style: solid; }
+.condbtn.on.c0 { color: var(--gold-text); background: #3a2e14; border-color: #8a6a2c; }
+.condbtn.on.c1 { color: #9fc7f2; background: #18283a; border-color: #3c6290; }
+.condbtn.on.c2 { color: #c9cfc4; background: #262c29; border-color: #56625b; }
+.condbtn.on.custom { color: var(--fear-text); background: #2a2140; border-color: #6a52a0; }
+.spawnrow { display: flex; gap: 8px; flex-wrap: wrap; }
+
+/* ---------- Seitenleiste ---------- */
+.side-sec { display: flex; flex-direction: column; gap: 8px; }
+.pctable { width: 100%; border-collapse: collapse; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+.pctable th { font-size: 12px; font-weight: 600; color: var(--muted); text-align: left; padding: 8px 10px; background: #18241f; }
+.pctable td { padding: 8px 10px; border-top: 1px solid #22302a; }
+.pctable .num { font-weight: 700; text-align: right; }
+.pctable th:not(:first-child) { text-align: right; }
+.quickref { font-size: 14px; color: var(--text-2); }
+.quickref strong { color: var(--text); display: block; }
+
+.start { flex: 1; display: flex; align-items: center; justify-content: center; padding: 24px 16px; }
+.start-card { max-width: 560px; }
+.start-card p { margin: 0; color: var(--text-2); }
+.start-card .btn { align-self: flex-start; }
+
+.toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); max-width: min(560px, calc(100vw - 32px)); padding: 12px 18px; border-radius: 12px; background: #24332c; border: 1px solid #4f7a6c; box-shadow: 0 12px 30px rgba(0,0,0,.4); z-index: 60; }
+.toast.err { background: #321c1a; border-color: #7a3a34; }
+
+/* ---------- Schmalere Bildschirme ---------- */
+@media (max-width: 1180px) {
+  .body { grid-template-columns: 240px minmax(0, 1fr); height: auto; }
+  .nav { position: sticky; top: 64px; height: calc(100vh - 64px); }
+  .main { overflow: visible; }
+  .side { grid-column: 2; border-left: 0; border-top: 1px solid #2a3832; overflow: visible; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); padding: 24px 36px 60px; }
+}
+@media (max-width: 860px) {
+  .navbtn { display: inline-flex; }
+  .body { display: block; }
+  .nav { position: fixed; top: 64px; left: 0; bottom: 0; width: min(320px, 86vw); height: auto; z-index: 40; background: var(--bg-2); border-right: 1px solid var(--line-2); transform: translateX(-100%); transition: transform .2s; }
+  .nav-open .nav { transform: none; }
+  .nav-open .scrim { display: block; position: fixed; inset: 64px 0 0 0; background: rgba(0,0,0,.5); z-index: 35; }
+  .main { padding: 20px 16px 40px; }
+  .side { padding: 20px 16px 40px; }
+  .unit-body { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 640px) {
+  h1 { font-size: 28px; }
+  .topbar { gap: 10px; padding: 8px 12px; flex-wrap: wrap; }
+  .brand { flex: 1; }
+  .brand .eyebrow { display: none; }
+  .brand-title { font-size: 18px; white-space: normal; line-height: 1.2; }
+  .fear { order: 5; width: 100%; justify-content: space-between; }
+  .fdot { width: 19px; }
+  .fdot span { width: 13px; height: 13px; }
+  .body .nav, .nav-open .scrim { top: 108px; inset-block-start: 108px; }
+  .outcomes { grid-template-columns: minmax(0, 1fr); }
+  .readtext { font-size: 18px; }
+  .readaloud { padding: 6px 16px; }
+  .gmnote { flex-direction: column; gap: 6px; }
+  .unit-head { gap: 8px; }
+  .actbtn { flex: 1; justify-content: center; }
+  .dmgbtns { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr); }
+  .countdown { flex-wrap: wrap; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+<div id="app"></div>
+<noscript>Diese App braucht JavaScript.</noscript>
+<script type="application/json" id="embedded-adventures"></script>
+<script>(()=>{var we=new Set(["svg","path","circle","rect","line","polyline","polygon","g"]);function e(n,t,...s){if(typeof n==="function")return n({...t??{},children:s});let r=we.has(n)?document.createElementNS("http://www.w3.org/2000/svg",n):document.createElement(n);if(t)for(let[o,l]of Object.entries(t))ke(r,o,l);return L(r,s),r}function P(n){let t=document.createDocumentFragment();return L(t,n.children??[]),t}function ke(n,t,s){if(t.startsWith("aria-")){if(s!=null)n.setAttribute(t,String(s));return}if(s==null||s===!1)return;if(t==="class"||t==="className")n.setAttribute("class",String(s));else if(t==="style"&&typeof s==="object")Object.assign(n.style,s);else if(t==="ref"&&typeof s==="function")s(n);else if(t.startsWith("on")&&typeof s==="function")n.addEventListener(t.slice(2).toLowerCase(),s);else if(t==="value")n.value=String(s);else if(t==="checked")n.checked=Boolean(s);else if(t==="trustedHtml")n.innerHTML=String(s);else if(s===!0)n.setAttribute(t,"");else n.setAttribute(t,String(s))}function L(n,t){for(let s of t){if(s==null||s===!1||s===!0)continue;if(Array.isArray(s))L(n,s);else if(s instanceof Node)n.appendChild(s);else n.appendChild(document.createTextNode(String(s)))}}var z="daggerheart-begleiter/abenteuer";function E(n){let t=[],s=n;if(!s||typeof s!=="object")return["Die Datei enthält kein Abenteuer-Objekt."];if(s.schema!==z)t.push(`Feld "schema" muss "${z}" sein.`);if(!s.id||typeof s.id!=="string")t.push('Feld "id" fehlt.');if(!s.title)t.push('Feld "title" fehlt.');if(!Array.isArray(s.acts)||s.acts.length===0)t.push('Feld "acts" fehlt oder ist leer.');if(!Array.isArray(s.adversaries))t.push('Feld "adversaries" fehlt (darf leer sein: []).');if(t.length)return t;let r=new Set;for(let i of s.adversaries){if(!i.id)t.push(`Gegner "${i.name??"?"}" hat keine id.`);else if(r.has(i.id))t.push(`Gegner-id "${i.id}" ist doppelt.`);if(r.add(i.id),!(i.hp>0))t.push(`Gegner "${i.id}": hp muss > 0 sein.`);if(!Array.isArray(i.thresholds)||i.thresholds.length!==2)t.push(`Gegner "${i.id}": thresholds braucht zwei Werte.`)}let o=new Set,l=new Set;for(let i of s.acts){if(!i.id||!Array.isArray(i.scenes)){t.push(`Akt "${i.title??"?"}" braucht id und scenes.`);continue}for(let a of i.scenes){if(!a.id)t.push(`Szene "${a.title??"?"}" hat keine id.`);else if(o.has(a.id))t.push(`Szenen-id "${a.id}" ist doppelt.`);o.add(a.id);for(let d of a.blocks??[]){if(d.type==="readaloud"||d.type==="decision")if(!d.id)t.push(`Szene "${a.id}": Block vom Typ ${d.type} braucht eine id.`);else if(l.has(d.id))t.push(`Block-id "${d.id}" ist doppelt.`);else l.add(d.id);if(d.type==="adversary"&&!r.has(d.ref))t.push(`Szene "${a.id}": unbekannter Gegner "${d.ref}".`)}for(let d of a.encounter?.groups??[])if(!r.has(d.ref))t.push(`Kampf in "${a.id}": unbekannter Gegner "${d.ref}".`);for(let d of a.encounter?.environment?.features??[])if(d.spawns&&!r.has(d.spawns.ref))t.push(`Umgebung in "${a.id}": unbekannter Gegner "${d.spawns.ref}".`)}}for(let i of s.acts)for(let a of i.scenes??[])for(let d of a.blocks??[])if(d.type==="branches"){for(let p of d.items)if(p.goto&&!o.has(p.goto))t.push(`Szene "${a.id}": Sprungziel "${p.goto}" gibt es nicht.`)}return t}var y="dh-begleiter:v1",W=[],c={library:[],embeddedIds:[],sessions:{},ui:{navOpen:!1,openUnits:{},openBlocks:{}}};function j(n){W.push(n)}function S(){W.forEach((n)=>n())}function T(n,t){try{let s=localStorage.getItem(n);return s?JSON.parse(s):t}catch{return t}}function I(n,t){try{localStorage.setItem(n,JSON.stringify(t))}catch{}}function q(n){c.embeddedIds=n.map((s)=>s.id);let t=T(`${y}:imported`,[]).filter((s)=>!c.embeddedIds.includes(s.id));if(c.library=[...n,...t],c.activeId=T(`${y}:active`,void 0),!c.library.some((s)=>s.id===c.activeId))c.activeId=c.library[0]?.id;for(let s of c.library)c.sessions[s.id]=U(T(`${y}:session:${s.id}`,{}))}function U(n){return{fear:0,encounters:{},read:{},picks:{},notes:{},...n}}function A(){if(!c.activeId)return;I(`${y}:active`,c.activeId),I(`${y}:session:${c.activeId}`,c.sessions[c.activeId])}function m(n){let t=g();if(t)n(t);A(),S()}function J(n){let t=g();if(t)n(t);A()}function b(n){n(c.ui),S()}function M(n,t="ok"){c.ui.toast={text:n,kind:t},S(),window.setTimeout(()=>{if(c.ui.toast?.text===n)c.ui.toast=void 0,S()},4000)}function x(){return c.library.find((n)=>n.id===c.activeId)}function g(){return c.activeId?c.sessions[c.activeId]:void 0}function C(n){return n.acts.flatMap((t)=>t.scenes)}function H(){let n=x();if(!n)return;let t=C(n);return t.find((s)=>s.id===g()?.sceneId)??t[0]}function w(n){return x()?.adversaries.find((t)=>t.id===n)}function h(n){c.ui.navOpen=!1,m((s)=>{s.sceneId=n});let t=document.querySelector('[data-scroll-key="main"]');if(t)t.scrollTop=0;window.scrollTo(0,0)}function R(n){c.activeId=n,c.ui.openUnits={},A(),S()}function Z(n){let t;try{t=JSON.parse(n)}catch{M("Die Datei ist kein gültiges JSON.","err");return}let s=E(t);if(s.length){M(`Abenteuer nicht geladen: ${s[0]}${s.length>1?` (+${s.length-1} weitere)`:""}`,"err"),console.warn("Validierungsfehler",s);return}let r=t;if(c.embeddedIds.includes(r.id)){M("Dieses Abenteuer ist bereits eingebaut.","err");return}c.library=[...c.library.filter((o)=>o.id!==r.id),r],I(`${y}:imported`,c.library.filter((o)=>!c.embeddedIds.includes(o.id))),c.sessions[r.id]=c.sessions[r.id]??U(T(`${y}:session:${r.id}`,{})),R(r.id),M(`„${r.title}“ geladen.`)}function Y(n){c.library=c.library.filter((t)=>t.id!==n),I(`${y}:imported`,c.library.filter((t)=>!c.embeddedIds.includes(t.id)));try{localStorage.removeItem(`${y}:session:${n}`)}catch{}delete c.sessions[n],c.activeId=c.library[0]?.id,A(),S()}function X(){if(!c.activeId)return;c.sessions[c.activeId]=U({}),c.ui.openUnits={},A(),S()}function _(n){let t=g(),s=t.encounters[n.id];if(!s)s=Q(n),t.encounters[n.id]=s,A();return s}function Q(n){let t={units:[],nextN:{},countdown:n.encounter?.countdown?.start};for(let s of n.encounter?.groups??[])for(let r=0;r<s.count;r++)t.units.push(ee(t,s.ref,!1));return t}function ee(n,t,s){let r=(n.nextN[t]??0)+1;return n.nextN[t]=r,{uid:`${t}-${r}`,ref:t,n:r,hp:0,stress:0,acted:!1,conds:[],spawned:s}}function te(n,t){let r=w(t.ref)?.name??t.ref;return(g()?.encounters[n.id]?.nextN[t.ref]??1)>1?`${r} #${t.n}`:r}function ne(n,t,s){m((r)=>{let o=r.encounters[n.id],l=o?.units.find((v)=>v.uid===t),i=l&&w(l.ref);if(!o||!l||!i)return;let a=l.hp>=i.hp;s(l,i),l.hp=Math.max(0,Math.min(i.hp,l.hp)),l.stress=Math.max(0,Math.min(i.stress,l.stress));let d=l.hp>=i.hp,p=n.encounter?.countdown;if(p?.onDefeat&&o.countdown!=null&&a!==d)o.countdown=se(o.countdown+(d?p.onDefeat:-p.onDefeat),p.max??p.start)})}function se(n,t){return Math.max(0,Math.min(t,n))}function O(n,t){let s=n.encounter?.countdown;if(!s)return;m((r)=>{let o=r.encounters[n.id];if(o)o.countdown=se((o.countdown??s.start)+t,s.max??s.start)})}function B(n,t,s){m((r)=>{let o=r.encounters[n.id];if(!o)return;for(let l=0;l<s;l++){let i=ee(o,t,!0);o.units.push(i)}})}function re(n,t){m((s)=>{let r=s.encounters[n.id];if(r)r.units=r.units.filter((o)=>o.uid!==t)})}function ie(n){m((t)=>{t.encounters[n.id]?.units.forEach((s)=>{s.acted=!1})})}function oe(n){m((t)=>{t.encounters[n.id]=Q(n)})}function ae(n,t){let[s,r]=n.thresholds;if(t<=0)return 0;if(r!=null&&t>=r)return 3;if(s!=null&&t>=s)return 2;return 1}var Se={chevron:'<path d="M9 6l6 6-6 6"/>',menu:'<path d="M4 7h16M4 12h16M4 17h16"/>',plus:'<path d="M12 5v14M5 12h14"/>',minus:'<path d="M5 12h14"/>',check:'<path d="M5 12l5 5L20 7"/>',x:'<path d="M6 6l12 12M18 6L6 18"/>',arrow:'<path d="M5 12h14M13 6l6 6-6 6"/>',swords:'<path d="M14.5 17.5L3 6V3h3l11.5 11.5M13 19l6-6M16 16l4 4M19 21l2-2M9.5 6.5L21 18v3h-3l-1-1M5 14l-2 2 2 2 2-2M11 5l2-2h3v3l-2 2"/>',rotate:'<path d="M4 12a8 8 0 1 0 2.3-5.7M4 4v4h4"/>',upload:'<path d="M12 16V4M7 9l5-5 5 5M5 20h14"/>',book:'<path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2zM4 5v16"/>',more:'<circle cx="5" cy="12" r="1.3"/><circle cx="12" cy="12" r="1.3"/><circle cx="19" cy="12" r="1.3"/>'};function u(n,t=20){return e("span",{class:"ic","aria-hidden":"true",trustedHtml:`<svg width="${t}" height="${t}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${Se[n]??""}</svg>`})}function k(n,t="prose"){let s=e("div",{class:t});for(let r of n.trim().split(/\n\s*\n/)){let o=document.createElement("p");r.split(`
+`).forEach((l,i)=>{if(i>0)o.appendChild(document.createElement("br"));f(l,o)}),s.appendChild(o)}return s}function f(n,t=document.createDocumentFragment()){let s=/(\*\*[^*]+\*\*|\*[^*]+\*)/g,r=0;for(let o of n.matchAll(s)){let l=o.index??0;if(l>r)t.appendChild(document.createTextNode(n.slice(r,l)));let i=o[0],a=document.createElement(i.startsWith("**")?"strong":"em");a.textContent=i.replace(/^\*+|\*+$/g,""),t.appendChild(a),r=l+i.length}if(r<n.length)t.appendChild(document.createTextNode(n.slice(r)));return t}function xe(n){let[t,s]=n.thresholds;return`${t??"–"}/${s??"keine"}`}function D({adv:n}){return e("div",{class:"statgrid"},e("div",{class:"stat"},e("span",null,"Schwierigkeit"),e("strong",null,n.difficulty)),e("div",{class:"stat"},e("span",null,"Schwellen"),e("strong",null,xe(n))),e("div",{class:"stat"},e("span",null,"Angriff"),e("strong",null,n.attack)))}function V({adv:n}){return e("div",{class:"weapon"},e("strong",null,n.weapon.name)," · ",n.weapon.range," · ",e("strong",{class:"dmg"},n.weapon.damage))}function K({features:n}){if(!n?.length)return e(P,null);return e("div",{class:"features"},n.map((t)=>e("div",{class:"feature"},e("div",{class:"feature-head"},e("strong",null,t.name),e("span",{class:"muted"}," – ",t.kind),t.fear?e("span",{class:"fearcost"},t.fear," Furcht"):null),e("div",{class:"feature-text"},f(t.text)))))}function ce({adv:n,note:t}){return e("section",{class:"card statcard"},e("div",{class:"statcard-head"},e("h3",null,n.name),e("span",{class:"muted small"},"Rang ",n.tier," · ",n.type)),e(D,{adv:n}),e(V,{adv:n}),e("div",{class:"small muted"},"TP ",n.hp," · Stress ",n.stress),e(K,{features:n.features}),t?e("div",{class:"small muted"},f(t)):null)}var le={successHope:{label:"Erfolg mit Hoffnung",tone:"good"},successFear:{label:"Erfolg mit Furcht",tone:"good",fear:!0},failHope:{label:"Misserfolg mit Hoffnung",tone:"warn"},failFear:{label:"Misserfolg mit Furcht",tone:"bad",fear:!0},crit:{label:"Kritischer Erfolg",tone:"crit"},success:{label:"Erfolg",tone:"good"},fail:{label:"Misserfolg",tone:"bad"},other:{label:"Ergebnis",tone:"neutral"}};function de({block:n}){switch(n.type){case"readaloud":return e(Ae,{b:n});case"gm":return e("section",{class:`gmnote ${n.label==="Frage"?"q":""}`},e("span",{class:"gmlabel"},n.label??"Hinweis"),k(n.text,"prose"));case"decision":return e(he,{d:n});case"branches":return e("section",{class:"card branches"},e("h3",null,n.title??"Wenn die SC …"),e("ul",null,n.items.map((t)=>e("li",null,e("strong",null,f(t.when)),e("span",null," – ",f(t.then)),t.goto?e("button",{type:"button",class:"linkbtn",onClick:()=>h(t.goto)},$e(t.goto)," ",u("arrow",16)):null))));case"npcs":return e("section",{class:"npcs"},n.title?e("h3",{class:"section-title"},n.title):null,e("div",{class:"npcgrid"},n.items.map((t)=>e("div",{class:"card npc"},e("div",{class:"npc-head"},e("strong",null,t.name),t.pronouns?e("span",{class:"muted small"}," (",t.pronouns,")"):null),t.tagline?e("div",{class:"small accent"},t.tagline):null,k(t.text,"prose small")))));case"adversary":{let t=w(n.ref);return t?e(ce,{adv:t,note:n.note}):e("div",null)}case"info":return e(Ce,{title:n.title,text:n.text,collapsed:n.collapsed})}}function $e(n){let t=x();return t?C(t).find((s)=>s.id===n)?.title??n:n}function ue(n,t){let s=c.ui.openBlocks[n];return s==null?t:s}function Ae({b:n}){let t=`ra:${n.id}`,s=ue(t,!n.collapsed),r=Boolean(g()?.read[n.id]);return e("section",{class:`readaloud ${r?"done":""}`},e("div",{class:"ra-head"},e("button",{type:"button",class:"ra-toggle","aria-expanded":String(s),"data-fk":`ra-${n.id}`,onClick:()=>b((o)=>{o.openBlocks[t]=!s})},e("span",{class:"pill gold"},"Vorlesen"),e("span",{class:"ra-title"},n.title??""),e("span",{class:`chev ${s?"open":""}`},u("chevron",18))),e("button",{type:"button",class:`readmark ${r?"on":""}`,"aria-pressed":String(r),"data-fk":`rm-${n.id}`,onClick:()=>m((o)=>{o.read[n.id]=!r})},r?u("check",16):null,r?"Vorgelesen":"Als vorgelesen markieren")),s?k(n.text,"prose readtext"):null)}function he({d:n}){let t=g()?.picks[n.id];return e("section",{class:"card decision"},e("div",{class:"decision-head"},e("span",{class:"pill teal"},"Entscheidung"),e("h3",null,n.title),e("span",{class:"grow"}),n.roll?.trait?e("span",{class:"chip"},n.roll.trait):null,n.roll?.difficulty!=null?e("span",{class:"chip"},"SG ",n.roll.difficulty):null),n.trigger?e("div",{class:"muted"},f(n.trigger)):null,e("div",{class:"outcomes"},n.outcomes.map((s,r)=>{let o=le[s.result]??le.other,l=t===r;return e("button",{type:"button",class:`outcome ${o.tone} ${s.result==="crit"?"wide":""} ${l?"picked":""} ${t!=null&&!l?"dim":""}`,"aria-pressed":String(l),"data-fk":`oc-${n.id}-${r}`,onClick:()=>m((i)=>{if(l)delete i.picks[n.id];else i.picks[n.id]=r})},e("span",{class:"outcome-label"},s.label??o.label,o.fear?e("span",{class:"fearnote"}," · +1 Furcht"):null,l?e("span",{class:"pickmark"},u("check",16)):null),e("span",{class:"outcome-text"},f(s.text)))})))}function Ce({title:n,text:t,collapsed:s}){let r=`info:${n}`,o=ue(r,!s);return e("section",{class:"card info"},e("button",{type:"button",class:"info-toggle","aria-expanded":String(o),"data-fk":`info-${n}`,onClick:()=>b((l)=>{l.openBlocks[r]=!o})},e("h3",null,n),e("span",{class:"grow"}),e("span",{class:`chev ${o?"open":""}`},u("chevron",18))),o?k(t,"prose"):null)}var G=["Verwundbar","Festgesetzt","Versteckt"];function me({scene:n}){let t=n.encounter,s=_(n),r=s.units.filter((i)=>i.hp<(w(i.ref)?.hp??1)),o=r.filter((i)=>i.acted).length,l=[...new Set([...t.groups.map((i)=>i.ref),...s.units.map((i)=>i.ref)])];return e("section",{class:"combat","aria-label":"Kampf"},e("div",{class:"combat-bar"},e("span",{class:"pill red"},u("swords",14)," Kampf"),e("span",{class:"chip"},o," von ",r.length," waren dran"),e("span",{class:"grow"}),e("button",{type:"button",class:"btn primary","data-fk":"newround",onClick:()=>ie(n)},u("rotate",18)," Neue SL-Runde")),t.countdown&&s.countdown!=null?e("div",{class:"countdown"},e("div",{class:"cd-die","aria-label":`Countdown ${s.countdown}`},e("svg",{viewBox:"0 0 52 52",width:"56",height:"56","aria-hidden":"true"},e("path",{d:"M26 3 L48 26 L26 49 L4 26 Z"})),e("span",null,s.countdown)),e("div",{class:"cd-text"},e("strong",null,t.countdown.label),t.countdown.rules?e("span",{class:"small"},f(t.countdown.rules)):null,s.countdown===0?e("span",{class:"cd-done"},"Abgeschlossen – weiter zur nächsten Szene!"):null),e("div",{class:"cd-btns"},e("button",{type:"button",class:"btn icon","aria-label":"Countdown erhöhen","data-fk":"cd-up",onClick:()=>O(n,1)},u("plus")),e("button",{type:"button",class:"btn icon","aria-label":"Countdown senken","data-fk":"cd-down",onClick:()=>O(n,-1)},u("minus")))):null,e("div",{class:"units"},s.units.map((i)=>e(Ee,{scene:n,u:i}))),e("div",{class:"spawnrow"},l.map((i)=>{let a=w(i);return a?e("button",{type:"button",class:"btn ghost","data-fk":`spawn-${i}`,onClick:()=>B(n,i,1)},u("plus",16)," ",a.name):null}),e("span",{class:"grow"}),e("button",{type:"button",class:"btn ghost danger","data-fk":"reset-enc",onClick:()=>{if(confirm("Diesen Kampf auf den Anfang zurücksetzen?"))oe(n)}},"Kampf zurücksetzen")),t.environment?e("section",{class:"card env"},e("div",{class:"statcard-head"},e("h3",null,t.environment.name),e("span",{class:"muted small"},"Umgebung",t.environment.tier?` · Rang ${t.environment.tier}`:"",t.environment.kind?` · ${t.environment.kind}`:"")),t.environment.features.map((i)=>e("div",{class:"feature"},e("div",{class:"feature-head"},e("strong",null,i.name),e("span",{class:"muted"}," – ",i.kind),i.fear?e("span",{class:"fearcost"},i.fear," Furcht"):null),e("div",{class:"feature-text"},f(i.text)),i.spawns?e("button",{type:"button",class:"btn ghost small-btn","data-fk":`envspawn-${i.name}`,onClick:()=>B(n,i.spawns.ref,i.spawns.count)},u("plus",16)," ",i.spawns.count," × ",w(i.spawns.ref)?.name," erscheinen lassen"):null))):null,t.allies?.map((i)=>e("section",{class:"card ally"},e("div",{class:"statcard-head"},e("h3",null,i.name),e("span",{class:"muted small"},"Verbündete",i.difficulty?` · SG ${i.difficulty}`:"")),k(i.text,"prose small"))),t.notes?e("section",{class:"gmnote"},e("span",{class:"gmlabel"},"Kampf-Hinweise"),k(t.notes)):null)}function pe(n,t,s,r,o,l){let i=[];for(let a=0;a<n;a++){let d=a<t;i.push(e("button",{type:"button",class:`pip ${s} ${d?"on":""}`,"aria-label":`${r} ${a+1}${d?" (markiert)":""}`,"data-fk":`${s}-${o}-${a}`,onClick:()=>l(a<t?a:a+1)},e("span",null)))}return i}function Ee({scene:n,u:t}){let s=w(t.ref);if(!s)return e("div",null);let r=Boolean(c.ui.openUnits[t.uid]),o=t.hp>=s.hp,l=te(n,t),i=(a)=>ne(n,t.uid,a);return e("section",{class:`unit ${r?"open":""} ${o?"down":""} ${t.acted&&!o?"acted":""}`},e("div",{class:"unit-head"},e("button",{type:"button",class:"unit-name","aria-expanded":String(r),"data-fk":`open-${t.uid}`,onClick:()=>b((a)=>{a.openUnits[t.uid]=!r})},e("span",{class:`chev ${r?"open":""}`},u("chevron",18)),e("span",{class:"unit-title"},e("strong",null,l),e("span",{class:"small muted"},"Rang ",s.tier," · ",s.type," · SG ",s.difficulty))),e("div",{class:"tracks"},e("div",{class:"track"},e("span",{class:"tlabel"},"TP"),pe(s.hp,t.hp,"hp","TP",t.uid,(a)=>i((d)=>{d.hp=a}))),e("div",{class:"track"},e("span",{class:"tlabel"},"Stress"),pe(s.stress,t.stress,"stress","Stress",t.uid,(a)=>i((d)=>{d.stress=a})))),e("div",{class:"chips"},t.conds.map((a)=>e("span",{class:`cond ${fe(a)}`},a)),o?e("span",{class:"cond down"},"Besiegt"):null),e("span",{class:"grow"}),e("button",{type:"button",class:`actbtn ${t.acted?"on":""}`,"aria-pressed":String(t.acted),"data-fk":`act-${t.uid}`,onClick:()=>i((a)=>{a.acted=!a.acted})},t.acted?u("check",16):null,t.acted?"War dran":"Noch nicht dran")),r?e("div",{class:"unit-body"},e("div",{class:"col"},e(D,{adv:s}),e(V,{adv:s}),e(K,{features:s.features}),s.description?e("div",{class:"small muted"},f(s.description)):null),e("div",{class:"col"},e("div",{class:"group"},e("span",{class:"eyebrow"},"Schaden eintragen"),e("div",{class:"dmgbtns"},e("button",{type:"button",class:"dmg minor","data-fk":`d1-${t.uid}`,onClick:()=>i((a)=>{a.hp+=1})},e("strong",null,"Leicht"),e("span",null,s.thresholds[0]!=null?`unter ${s.thresholds[0]}`:"jeder"," · 1 TP")),s.thresholds[0]!=null?e("button",{type:"button",class:"dmg major","data-fk":`d2-${t.uid}`,onClick:()=>i((a)=>{a.hp+=2})},e("strong",null,"Mittel"),e("span",null,s.thresholds[0],s.thresholds[1]!=null?`–${s.thresholds[1]-1}`:"+"," · 2 TP")):null,s.thresholds[1]!=null?e("button",{type:"button",class:"dmg severe","data-fk":`d3-${t.uid}`,onClick:()=>i((a)=>{a.hp+=3})},e("strong",null,"Schwer"),e("span",null,s.thresholds[1],"+ · 3 TP")):null),e("form",{class:"dmgform",onSubmit:(a)=>{a.preventDefault();let d=a.currentTarget.elements.namedItem("dmg"),p=Number(d.value);if(!Number.isFinite(p)||p<=0)return;let v=ae(s,p);i((ye)=>{ye.hp+=v})}},e("label",{for:`dmg-${t.uid}`},"Schadenswert"),e("input",{id:`dmg-${t.uid}`,name:"dmg",type:"number",inputmode:"numeric",min:"1",placeholder:"z.B. 9"}),e("button",{type:"submit",class:"btn"},"Eintragen"))),e("div",{class:"group"},e("span",{class:"eyebrow"},"Effekt-Marker"),e("div",{class:"condbtns"},[...new Set([...G,...t.conds])].map((a)=>{let d=t.conds.includes(a);return e("button",{type:"button",class:`condbtn ${fe(a)} ${d?"on":""}`,"aria-pressed":String(d),"data-fk":`cond-${t.uid}-${a}`,onClick:()=>i((p)=>{p.conds=d?p.conds.filter((v)=>v!==a):[...p.conds,a]})},a,d&&!G.includes(a)?u("x",14):null)})),e("form",{class:"condform",onSubmit:(a)=>{a.preventDefault();let p=a.currentTarget.elements.namedItem("cond").value.trim().slice(0,40);if(!p)return;i((v)=>{if(!v.conds.includes(p))v.conds=[...v.conds,p]})}},e("label",{for:`cond-${t.uid}`,class:"sr-only"},"Eigener Marker"),e("input",{id:`cond-${t.uid}`,name:"cond",type:"text",placeholder:"Eigener Marker, z.B. Jagdfokus (Varian)"}),e("button",{type:"submit",class:"btn"},"Hinzufügen"))),t.spawned?e("button",{type:"button",class:"btn ghost danger","data-fk":`rm-${t.uid}`,onClick:()=>re(n,t.uid)},u("x",16)," Aus dem Kampf entfernen"):null)):null)}function fe(n){let t=G.indexOf(n);return t>=0?`c${t}`:"custom"}function ge(){let n=x();return e("div",{class:`app ${c.ui.navOpen?"nav-open":""}`},e(Me,{adv:n}),n?e(Fe,{adv:n}):e(Ne,null),c.ui.toast?e("div",{class:`toast ${c.ui.toast.kind}`,role:"status"},c.ui.toast.text):null)}function Me({adv:n}){let t=g(),s=H();return e("header",{class:"topbar"},n?e("button",{type:"button",class:"btn icon navbtn","aria-label":"Akte und Szenen","data-fk":"navbtn",onClick:()=>b((r)=>{r.navOpen=!r.navOpen})},u("menu")):null,e("div",{class:"brand"},e("span",{class:"eyebrow"},n?n.subtitle??"Abenteuer":"Daggerheart"),e("span",{class:"brand-title"},n?n.title:"SL-Begleiter")),n&&s?e("span",{class:"topscene"},s.title):null,e("span",{class:"grow"}),n&&t?e(Te,{value:t.fear}):null,e(Ie,null))}function Te({value:n}){let t=(r)=>m((o)=>{o.fear=Math.max(0,Math.min(12,r))}),s=[];for(let r=0;r<12;r++){let o=r<n;s.push(e("button",{type:"button",class:`fdot ${o?"on":""}`,"aria-label":`Furcht auf ${r+1} setzen`,"data-fk":`fear-${r}`,onClick:()=>t(n===r+1?r:r+1)},e("span",null)))}return e("div",{class:"fear",role:"group","aria-label":"Furcht"},e("span",{class:"fear-label"},"Furcht"),e("button",{type:"button",class:"btn icon sm","aria-label":"Furcht verringern","data-fk":"fear-dn",onClick:()=>t(n-1)},u("minus",18)),e("div",{class:"fdots"},s),e("button",{type:"button",class:"btn icon sm","aria-label":"Furcht erhöhen","data-fk":"fear-up",onClick:()=>t(n+1)},u("plus",18)),e("span",{class:"fear-val","aria-live":"polite"},n))}function be(){let n=document.createElement("input");n.type="file",n.accept="application/json,.json",n.onchange=async()=>{let t=n.files?.[0];if(t)Z(await t.text())},n.click()}function Ie(){let n=x(),t=n?c.embeddedIds.includes(n.id):!0;return e("details",{class:"menu"},e("summary",{class:"btn icon","aria-label":"Menü"},u("more")),e("div",{class:"menu-pop",role:"menu"},c.library.length>1?e("span",{class:"eyebrow"},"Abenteuer wechseln"):null,c.library.length>1?c.library.map((s)=>e("button",{type:"button",class:`menu-item ${s.id===n?.id?"current":""}`,onClick:(r)=>{N(r),R(s.id)}},s.id===n?.id?u("check",16):u("book",16)," ",s.title)):null,e("button",{type:"button",class:"menu-item",onClick:(s)=>{N(s),be()}},u("upload",16)," Abenteuer laden (.json)"),n?e("button",{type:"button",class:"menu-item",onClick:(s)=>{if(N(s),confirm("Furcht, Kämpfe, Markierungen und Notizen dieses Abenteuers zurücksetzen?"))X()}},u("rotate",16)," Neue Sitzung starten"):null,n&&!t?e("button",{type:"button",class:"menu-item danger",onClick:(s)=>{if(N(s),confirm(`„${n.title}“ aus dieser App entfernen?`))Y(n.id)}},u("x",16)," Abenteuer entfernen"):null))}function N(n){n.currentTarget.closest("details")?.removeAttribute("open")}function Ne(){return e("main",{class:"start"},e("div",{class:"card start-card"},e("h1",null,"Willkommen, Spielleitung"),e("p",null,"Diese App zeigt dir am Tisch die Vorlesetexte, wichtigen Entscheidungen und alle Gegner eines Daggerheart-Abenteuers – mit Kampf-Tracker für TP, Stress, Furcht und Effekt-Marker."),e("p",null,"Lade eine Abenteuer-Datei (",e("code",null,".json"),"), um loszulegen. Sie bleibt in diesem Browser gespeichert, genau wie dein Spielstand."),e("button",{type:"button",class:"btn primary",onClick:be},u("upload",18)," Abenteuer laden")))}function Fe({adv:n}){let t=H();return e("div",{class:"body"},e("div",{class:"scrim",onClick:()=>b((s)=>{s.navOpen=!1})}),e(Le,{adv:n,current:t}),e("main",{class:"main","data-scroll-key":"main"},e(ze,{adv:n,scene:t})),e(Ue,{adv:n,scene:t}))}function Le({adv:n,current:t}){let s=g();return e("nav",{class:"nav","aria-label":"Akte und Szenen","data-scroll-key":"nav"},n.acts.map((r)=>e("div",{class:"nav-act"},e("span",{class:`eyebrow ${r.scenes.some((o)=>o.id===t.id)?"accent":""}`},r.label?`${r.label} · `:"",r.title),r.scenes.map((o)=>{let l=o.blocks.filter((a)=>a.type==="readaloud").map((a)=>a.id),i=l.length>0&&l.every((a)=>s?.read[a]);return e("button",{type:"button",class:`nav-item ${o.id===t.id?"current":""}`,"aria-current":o.id===t.id?"page":void 0,"data-fk":`nav-${o.id}`,onClick:()=>h(o.id)},e("span",null,o.title),o.encounter?e("span",{class:"pill red tiny"},"Kampf"):null,i?e("span",{class:"donemark","aria-label":"alles vorgelesen"},u("check",14)):null)}))))}function ze({adv:n,scene:t}){let s=C(n),r=s.findIndex((a)=>a.id===t.id),o=n.acts.find((a)=>a.scenes.includes(t)),l=s[r+1],i=s[r-1];return e("div",{class:"scene"},e("div",{class:"scene-head"},o?e("span",{class:"eyebrow accent"},o.label?`${o.label} · `:"",o.title):null,e("h1",null,t.title)),t.blocks.map((a)=>e(de,{block:a})),t.encounter?e(me,{scene:t}):null,e("div",{class:"pager"},i?e("button",{type:"button",class:"btn ghost","data-fk":"prev",onClick:()=>h(i.id)},"Zurück: ",i.title):e("span",null),l?e("button",{type:"button",class:"btn primary","data-fk":"next",onClick:()=>h(l.id)},"Weiter: ",l.title," ",u("arrow",18)):null))}function Ue({adv:n,scene:t}){let s=g();return e("aside",{class:"side","data-scroll-key":"side"},n.pcs?.length?e("section",{class:"side-sec"},e("span",{class:"eyebrow"},"Spielercharaktere"),e("table",{class:"pctable"},e("thead",null,e("tr",null,e("th",{scope:"col"},"Name"),e("th",{scope:"col"},"Ausw."),e("th",{scope:"col"},"Schwellen"))),e("tbody",null,n.pcs.map((r)=>e("tr",null,e("td",null,r.name,r.role?e("span",{class:"small muted"},e("br",null),r.role):null),e("td",{class:"num"},r.evasion),e("td",{class:"num"},r.thresholds?`${r.thresholds[0]}/${r.thresholds[1]}`:"–")))))):null,e("section",{class:"side-sec"},e("label",{class:"eyebrow",for:"scene-notes"},"Notizen zu dieser Szene"),e("textarea",{id:"scene-notes",rows:5,placeholder:"Was die Spieler erfunden haben, Namen, offene Fäden …",onInput:(r)=>{let o=r.target.value;J((l)=>{l.notes[t.id]=o})}},s?.notes[t.id]??"")),e("section",{class:"side-sec quickref"},e("span",{class:"eyebrow"},"Spickzettel"),e("div",null,e("strong",null,"Schwierigkeit")," 10 einfach · 15 mittel · 20 schwer"),e("div",null,e("strong",null,"Vorteil/Nachteil")," SC: ±W6 · SL: zweiter W20, besseres/schlechteres Ergebnis"),e("div",null,e("strong",null,"Gegner greift an")," W20 + Angriff gegen Ausweichen des SC"),e("div",null,e("strong",null,"Furcht einsetzen")," SL-Zug außer der Reihe · zusätzlicher Gegner im Fokus · Furcht-Zug"),e("div",null,e("strong",null,"Kurze Rast")," je 2 Züge: Wunden versorgen, Stress löschen, Rüstung reparieren (je 1W4+Rang), Vorbereiten (+1 Hoffnung, gemeinsam +2)"),e("div",null,e("strong",null,"Distanzen")," unmittelbar · sehr kurz (1,5–3 m) · kurz (3–9 m) · weit (9–30 m) · sehr weit"),n.source?e("div",{class:"small muted"},f(n.source)):null))}function He(){let n=document.getElementById("embedded-adventures");if(!n?.textContent?.trim())return[];try{return JSON.parse(n.textContent).filter((s)=>{let r=E(s);if(r.length)console.warn("Eingebautes Abenteuer fehlerhaft",r);return r.length===0})}catch(t){return console.warn(t),[]}}var F=document.getElementById("app");function ve(){let n={};F.querySelectorAll("[data-scroll-key]").forEach((r)=>{n[r.dataset.scrollKey]=r.scrollTop});let t=window.scrollY,s=document.activeElement?.dataset?.fk;if(F.replaceChildren(e(ge,null)),F.querySelectorAll("[data-scroll-key]").forEach((r)=>{let o=n[r.dataset.scrollKey];if(o!=null)r.scrollTop=o}),window.scrollTo(0,t),s)F.querySelector(`[data-fk="${CSS.escape(s)}"]`)?.focus({preventScroll:!0})}q(He());j(ve);ve();document.addEventListener("keydown",(n)=>{if(n.key==="Escape"&&c.ui.navOpen)b((t)=>{t.navOpen=!1})});})();
+</script>
+</body>
+</html>
