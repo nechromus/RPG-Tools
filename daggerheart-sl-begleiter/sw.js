@@ -1,10 +1,14 @@
-// Service Worker: hält die App offline verfügbar. Neue Versionen werden im
-// Hintergrund geladen und beim nächsten Start aktiv.
-const CACHE = 'sl-begleiter-25e6c94ef601';
+// Service Worker: hält die App offline verfügbar.
+// Jede Version hat einen eigenen Speicher. Eine neue Version wird im
+// Hintergrund vollständig geladen und wartet dann, bis die App nachfragt
+// und die Spielleitung „Jetzt aktualisieren“ antippt.
+const VERSION = '2026-10-24·03958f1';
+const CACHE = `sl-begleiter-${VERSION}`;
 const FILES = ['./', './index.html', './manifest.webmanifest', './icon-180.png', './icon-192.png', './icon-512.png', './icon-maskable-512.png'];
 
 self.addEventListener('install', (e) => {
-  e.waitUntil(caches.open(CACHE).then((c) => c.addAll(FILES)).then(() => self.skipWaiting()));
+  // cache: 'reload' umgeht den Browser-Cache, damit wirklich die neuen Dateien kommen.
+  e.waitUntil(caches.open(CACHE).then((c) => c.addAll(FILES.map((u) => new Request(u, { cache: 'reload' })))));
 });
 
 self.addEventListener('activate', (e) => {
@@ -15,18 +19,21 @@ self.addEventListener('activate', (e) => {
   );
 });
 
+self.addEventListener('message', (e) => {
+  if (e.data === 'skipWaiting') self.skipWaiting();
+  if (e.data === 'version' && e.ports[0]) e.ports[0].postMessage(VERSION);
+});
+
 self.addEventListener('fetch', (e) => {
   const req = e.request;
   if (req.method !== 'GET' || new URL(req.url).origin !== self.location.origin) return;
-  // Zuerst aus dem Speicher (schnell, offline), parallel aktualisieren.
-  e.respondWith(
-    caches.open(CACHE).then(async (cache) => {
-      const cached = await cache.match(req, { ignoreSearch: true });
-      const fresh = fetch(req).then((res) => {
-        if (res.ok) cache.put(req, res.clone());
-        return res;
-      }).catch(() => cached);
-      return cached || fresh;
-    }),
-  );
+  e.respondWith((async () => {
+    const cache = await caches.open(CACHE);
+    const hit = await cache.match(req, { ignoreSearch: true })
+      ?? (req.mode === 'navigate' ? await cache.match('./index.html') : undefined);
+    if (hit) return hit;
+    try { return await fetch(req); } catch {
+      return (await cache.match('./index.html')) ?? Response.error();
+    }
+  })());
 });
