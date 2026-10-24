@@ -1,6 +1,6 @@
 // Service Worker: hält die App offline verfügbar. Neue Versionen werden im
 // Hintergrund geladen und beim nächsten Start aktiv.
-const CACHE = 'sl-begleiter-8b9cea3934e9';
+const CACHE = 'sl-begleiter-25e6c94ef601';
 const FILES = ['./', './index.html', './manifest.webmanifest', './icon-180.png', './icon-192.png', './icon-512.png', './icon-maskable-512.png'];
 
 self.addEventListener('install', (e) => {
