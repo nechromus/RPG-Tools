@@ -2,7 +2,7 @@
 // Jede Version hat einen eigenen Speicher. Eine neue Version wird im
 // Hintergrund vollständig geladen und wartet dann, bis die App nachfragt
 // und die Spielleitung „Jetzt aktualisieren“ antippt.
-const VERSION = '2026-10-24·3ac8503';
+const VERSION = '2026-10-24·04a72f0';
 const CACHE = `sl-begleiter-${VERSION}`;
 const FILES = ['./', './index.html', './manifest.webmanifest', './icon-180.png', './icon-192.png', './icon-512.png', './icon-maskable-512.png'];
 
