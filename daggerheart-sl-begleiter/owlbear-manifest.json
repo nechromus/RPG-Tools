@@ -1,0 +1,23 @@
+{
+  "name": "Daggerheart SL-Begleiter",
+  "version": "20261025.ba90918",
+  "manifest_version": 1,
+  "description": "Vorlesetexte, Kampf-Tracker und Figuren für Daggerheart – Gegner verdeckt setzen, aufdecken, Distanzen sehen.",
+  "icon": "https://nechromus.github.io/RPG-Tools/daggerheart-sl-begleiter/icon-192.png",
+  "author": "nechromus",
+  "homepage_url": "https://nechromus.github.io/RPG-Tools/daggerheart-sl-begleiter/",
+  "background_url": "https://nechromus.github.io/RPG-Tools/daggerheart-sl-begleiter/background.html",
+  "action": {
+    "title": "SL-Begleiter",
+    "icon": "https://nechromus.github.io/RPG-Tools/daggerheart-sl-begleiter/owlbear-icon.svg",
+    "popover": "https://nechromus.github.io/RPG-Tools/daggerheart-sl-begleiter/index.html",
+    "width": 440,
+    "height": 1000
+  },
+  "permissions": [
+    {
+      "name": "clipboard-write",
+      "reason": "Protokoll für die Fehlersuche kopieren"
+    }
+  ]
+}
