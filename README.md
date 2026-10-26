@@ -12,6 +12,10 @@ Auf dem iPad: Seite in Safari öffnen → *Teilen* → *Zum Home-Bildschirm*. Di
 
 Abenteuer werden als `.json`-Datei geladen (Menü → „Abenteuer laden“). Diese Version enthält bewusst **keine** Abenteuertexte, da diese urheberrechtlich geschützt sind.
 
+## Regelreferenz (SRD 1.0), inoffizielle deutsche Fassung
+
+[`srd/SRD_Deutsch_frei.html`](https://nechromus.github.io/RPG-Tools/srd/SRD_Deutsch_frei.html) – Lesefassung mit Inhaltsverzeichnis, dazu der Text als [`srd/SRD_Deutsch_frei.md`](srd/SRD_Deutsch_frei.md). Inoffizielle Fan-Übersetzung des englischen System Reference Document 1.0, eigenständig aus dem englischen SRD übersetzt. Daggerheart™ Compatible. Lizenz: Darrington Press Community Gaming License (https://darringtonpress.com/license/); die Anrechnung steht am Anfang des Dokuments.
+
 ## SL-Begleiter für Owlbear Rodeo (Test)
 
 [`daggerheart-sl-begleiter-owlbear/`](daggerheart-sl-begleiter-owlbear/) – Testfassung, die zusätzlich als Erweiterung in Owlbear Rodeo läuft. In Owlbear: Profil → *Add Extension* → `https://nechromus.github.io/RPG-Tools/daggerheart-sl-begleiter-owlbear/owlbear-manifest.json`.
