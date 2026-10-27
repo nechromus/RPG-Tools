@@ -14,7 +14,7 @@ Abenteuer werden als `.json`-Datei geladen (Menü → „Abenteuer laden“). Di
 
 ## Regelreferenz (SRD 1.0), inoffizielle deutsche Fassung
 
-[`srd/SRD_Deutsch_frei.html`](https://nechromus.github.io/RPG-Tools/srd/SRD_Deutsch_frei.html) – Lesefassung mit Inhaltsverzeichnis, dazu der Text als [`srd/SRD_Deutsch_frei.md`](srd/SRD_Deutsch_frei.md). Inoffizielle Fan-Übersetzung des englischen System Reference Document 1.0, eigenständig aus dem englischen SRD übersetzt. Daggerheart™ Compatible. Lizenz: Darrington Press Community Gaming License (https://darringtonpress.com/license/); die Anrechnung steht am Anfang des Dokuments.
+[`srd/SRD_Deutsch_frei.html`](https://nechromus.github.io/RPG-Tools/srd/SRD_Deutsch_frei.html) – Lesefassung mit Inhaltsverzeichnis, dazu der Text als [`srd/SRD_Deutsch_frei.md`](srd/SRD_Deutsch_frei.md) und zum Drucken als [`srd/SRD_Deutsch_frei.pdf`](srd/SRD_Deutsch_frei.pdf) (252 Seiten). Inoffizielle Fan-Übersetzung des englischen System Reference Document 1.0, eigenständig aus dem englischen SRD übersetzt. Daggerheart™ Compatible. Lizenz: Darrington Press Community Gaming License (https://darringtonpress.com/license/); die Anrechnung steht am Anfang des Dokuments.
 
 ## SL-Begleiter für Owlbear Rodeo (Test)
 
