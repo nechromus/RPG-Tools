@@ -2,7 +2,7 @@
   "name": "SL-Begleiter",
   "version": "20261101.01d768e",
   "manifest_version": 1,
-  "description": "Vorlesetexte, Kampf-Tracker und Figuren für Daggerheart™-Runden (inoffiziell) – Gegner verdeckt setzen, aufdecken, Distanzen sehen.",
+  "description": "Inoffizieller Begleiter für Daggerheart™-Runden: Vorlesetexte, Kampf-Tracker, Figuren, Würfe und Bögen.",
   "icon": "https://nechromus.github.io/RPG-Tools/daggerheart-sl-begleiter/icon-192.png",
   "author": "nechromus",
   "homepage_url": "https://nechromus.github.io/RPG-Tools/daggerheart-sl-begleiter/",
