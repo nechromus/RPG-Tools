@@ -1,7 +1,7 @@
 {
-  "name": "Daggerheart SL-Begleiter",
+  "name": "SL-Begleiter",
   "short_name": "SL-Begleiter",
-  "description": "Vorlesetexte, Entscheidungen, Notizen und Kampf-Tracker für Daggerheart-Spielleitungen.",
+  "description": "Vorlesetexte, Entscheidungen, Notizen und Kampf-Tracker für Daggerheart™-Spielleitungen (inoffiziell).",
   "lang": "de",
   "start_url": "./",
   "scope": "./",
