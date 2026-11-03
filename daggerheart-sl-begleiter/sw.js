@@ -2,7 +2,7 @@
 // Jede Version hat einen eigenen Speicher. Eine neue Version wird im
 // Hintergrund vollständig geladen und wartet dann, bis die App nachfragt
 // und die Spielleitung „Jetzt aktualisieren“ antippt.
-const VERSION = '2026-11-01·01d768e';
+const VERSION = '2026-11-03·0ddc6ce';
 const CACHE = `sl-begleiter-${VERSION}`;
 const FILES = ['./', './index.html', './manifest.webmanifest', './icon-180.png', './icon-192.png', './icon-512.png', './icon-maskable-512.png', './fell-regular.woff', './fell-italic.woff', './fell-sc.woff'];
 
